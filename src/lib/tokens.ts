@@ -6,7 +6,7 @@ import {
 import {
   createPasswordResetToken,
   getPasswordResetTokenByEmail,
-  removPasswordResetTokenById,
+  removePasswordResetTokenById,
 } from "@/database/password-reset-token";
 import { v4 as uuidv4 } from "uuid";
 
@@ -16,7 +16,7 @@ export async function generatePasswordResetToken(email: string) {
 
   const existingToken = await getPasswordResetTokenByEmail(email);
   if (existingToken) {
-    await removPasswordResetTokenById(existingToken.id);
+    await removePasswordResetTokenById(existingToken.id);
   }
 
   const passwordResetToken = await createPasswordResetToken(
