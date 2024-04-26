@@ -1,3 +1,7 @@
 export default function TermsOfServicePage() {
-  return <div>djdjd</div>;
+  return (
+    <div>
+      <h1>Terms of service page</h1>
+    </div>
+  );
 }

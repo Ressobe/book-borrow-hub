@@ -14,7 +14,8 @@ export async function registerAction(formData: z.infer<typeof RegisterSchema>) {
     return { error: "Invalid fields!" };
   }
 
-  const { email, name, password } = validatedFormData.data;
+  let { email, name, password } = validatedFormData.data;
+  email = email.toLowerCase();
 
   const existingUser = await getUserByEmail(email);
   if (existingUser) {
@@ -26,8 +27,8 @@ export async function registerAction(formData: z.infer<typeof RegisterSchema>) {
   const user = await createUser(email, name, hashedPassword);
   await verifyUser(user.id, email);
 
-  // const verificationToken = await generateVerificationToken(email);
-  // await sendVerificationEmail(verificationToken.email, verificationToken.token);
+  const verificationToken = await generateVerificationToken(email);
+  await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
   return { sucess: "Confirmation email sent!" };
 }

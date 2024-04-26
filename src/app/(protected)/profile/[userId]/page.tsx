@@ -4,6 +4,7 @@ import { BookCard } from "@/components/book/book-card";
 import { BooksContainer } from "@/components/book/books-container";
 import { Button } from "@/components/ui/button";
 import { UserAvatar } from "@/components/user-avatar";
+import BooksContextProvider from "@/context/book-context";
 import { getUserBooksByUserId, getUserById } from "@/database/user";
 import { MessageCircle } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -33,11 +34,11 @@ export default async function ProfilePage({
   );
 
   return (
-    <section className="flex flex-col w-3/4 pl-5 gap-y-14">
+    <section className="flex flex-col w-3/4 gap-y-14">
       <div className="flex flex-col items-center md:flex-row gap-x-16 w-full py-8">
         <UserAvatar
           canEdit={canEdit}
-          className="w-36 h-36"
+          className="w-36 h-36 border p-1"
           avatarUrl={user?.image}
         />
         <div className="space-y-5">
@@ -55,8 +56,12 @@ export default async function ProfilePage({
           I'm looking for
           {canEdit && <BookAddButton bookCategory="LOOKING_FOR" />}
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <BooksContainer books={lookingForBooks} canEdit={canEdit} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <BooksContainer
+            books={lookingForBooks}
+            canEdit={canEdit}
+            showLinkToProfile={false}
+          />
         </div>
       </section>
       <section className="space-y-5">
@@ -64,10 +69,12 @@ export default async function ProfilePage({
           I want to trade
           {canEdit && <BookAddButton bookCategory="EXCHANGING" />}
         </h2>
-        <div className="grid grid-cols-4">
-          {exchangingBooks?.map((item) => {
-            return <BookCard key={item.id} book={item} canEdit={canEdit} />;
-          })}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+          <BooksContainer
+            books={exchangingBooks}
+            canEdit={canEdit}
+            showLinkToProfile={false}
+          />
         </div>
       </section>
     </section>

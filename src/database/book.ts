@@ -61,3 +61,7 @@ export async function updateBookCover(bookId: string, bookCover: string) {
 export async function deleteBook(bookId: string) {
   return await db.book.delete({ where: { id: bookId } });
 }
+
+export async function getBooks() {
+  return await db.book.findMany();
+}

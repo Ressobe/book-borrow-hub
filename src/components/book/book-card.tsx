@@ -10,13 +10,16 @@ import Image from "next/image";
 import { BookEditButton } from "./book-edit-button";
 import { BookDeleteButton } from "./book-delete-button";
 import { Book } from "@prisma/client";
+import Link from "next/link";
+import { ImageIcon, User } from "lucide-react";
 
 type BookCardProps = {
   book: Book;
   canEdit: boolean;
+  showLinkToProfile: boolean;
 };
 
-export function BookCard({ book, canEdit }: BookCardProps) {
+export function BookCard({ book, canEdit, showLinkToProfile }: BookCardProps) {
   return (
     <Card className="text-center relative">
       <CardHeader className="space-y-4">
@@ -32,20 +35,25 @@ export function BookCard({ book, canEdit }: BookCardProps) {
         <CardDescription>{book.description}</CardDescription>
       </CardHeader>
       <CardContent className="flex items-center justify-center">
-        {book.coverImage && (
-          <Image
-            src={book.coverImage}
-            width="200"
-            height="100"
-            alt="book"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
+        {book.coverImage ? (
+          <Image src={book.coverImage} width="200" height="100" alt="book" />
+        ) : (
+          <ImageIcon width="200px" height="300px" />
         )}
       </CardContent>
       <CardFooter>
         <div className="text-center w-full">
           <p>{book.publisher}</p>
           <p>{book.publicationYear}</p>
+          {showLinkToProfile && (
+            <Link
+              href={`/profile/${book.userId}`}
+              className="text-sm flex pt-2 items-center justify-center"
+            >
+              <User className="w-4 h-4" />
+              View profile
+            </Link>
+          )}
         </div>
       </CardFooter>
     </Card>

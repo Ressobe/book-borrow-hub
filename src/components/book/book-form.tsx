@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { isFileExtensionAllowed } from "@/lib/utils";
 
 type BookFormProps = {
   closeModal: () => void;
@@ -53,6 +54,14 @@ export function BookForm({ closeModal, category, type, book }: BookFormProps) {
 
   const onSubmit = async (values: z.infer<typeof BookSchema>) => {
     startTransition(async () => {
+      if (file && !isFileExtensionAllowed(file.name)) {
+        toast({
+          variant: "destructive",
+          title: "Invalid file format. Please upload a valid image file.",
+        });
+        return;
+      }
+
       let response = null;
       if (type === "create") {
         response = await createBookAction(user?.id, category, values);
@@ -76,6 +85,14 @@ export function BookForm({ closeModal, category, type, book }: BookFormProps) {
       }
       if (response.sucess) {
         if (file) {
+          if (!isFileExtensionAllowed(file.name)) {
+            toast({
+              variant: "destructive",
+              title: "Invalid file format. Please upload a valid image file.",
+            });
+            return;
+          }
+
           const timestamp = Date.now();
           const fileName = `${timestamp}-${file.name}`;
 
@@ -216,6 +233,7 @@ export function BookForm({ closeModal, category, type, book }: BookFormProps) {
                   type="file"
                   onChange={handleChange}
                   className="block border-none w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:hover:cursor-pointer file:text-xs file:bg-muted file:text-foreground hover:file:bg-muted/50 "
+                  accept="image/jpeg, image/png, image/gif, image/webp"
                 />
               </FormControl>
               <FormMessage />

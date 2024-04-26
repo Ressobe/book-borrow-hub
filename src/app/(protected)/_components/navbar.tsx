@@ -14,7 +14,7 @@ export function Navbar() {
       </Link>
       <div className="flex md:gap-x-4">
         <Notifications />
-        <UserButton />
+        <UserButton className="border" />
       </div>
     </nav>
   );

@@ -2,31 +2,34 @@
 
 import { FaUser } from "react-icons/fa";
 import { ExitIcon } from "@radix-ui/react-icons";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import { LogoutButton } from "./logout-button";
-import Link from "next/link";
 import { BookOpen, MessageCircle, SettingsIcon, User } from "lucide-react";
+import Link from "next/link";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { cn } from "@/lib/utils";
 
-export function UserButton() {
+type UserButtonProps = {
+  className?: string;
+};
+
+export function UserButton({ className }: UserButtonProps) {
   const user = useCurrentUser();
   if (!user) return null;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Avatar>
+        <Avatar className={className}>
           <AvatarImage src={user.image || ""} />
           <AvatarFallback className="">
-            <FaUser className="w-7 h-7" />
+            <FaUser className={cn("w-7 h-7")} />
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

@@ -93,3 +93,5 @@ export const BookSchema = z.object({
   publicationYear: z.optional(z.coerce.number()),
   publisher: z.optional(z.string()),
 });
+
+export const AllowedFileExtensions = ["jpg", "jpeg", "png", "gif", "webp"];
