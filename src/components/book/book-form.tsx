@@ -25,6 +25,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { isFileExtensionAllowed } from "@/lib/utils";
+import { Textarea } from "../ui/textarea";
 
 type BookFormProps = {
   closeModal: () => void;
@@ -47,6 +48,7 @@ export function BookForm({ closeModal, category, type, book }: BookFormProps) {
     defaultValues: {
       title: book?.title || "",
       author: book?.author || "",
+      description: book?.description || "",
       publisher: book?.publisher || "",
       publicationYear: book?.publicationYear || undefined,
     },
@@ -183,6 +185,24 @@ export function BookForm({ closeModal, category, type, book }: BookFormProps) {
                       disabled={isPending}
                       placeholder="Tiago Forte"
                       type="text"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      disabled={isPending}
+                      className="resize-none"
+                      placeholder="Tell more about this book ..."
                     />
                   </FormControl>
                   <FormMessage />

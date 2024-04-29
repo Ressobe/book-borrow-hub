@@ -1,10 +1,8 @@
 import { auth } from "@/auth";
 import { BookAddButton } from "@/components/book/book-add-button";
-import { BookCard } from "@/components/book/book-card";
 import { BooksContainer } from "@/components/book/books-container";
 import { Button } from "@/components/ui/button";
 import { UserAvatar } from "@/components/user-avatar";
-import BooksContextProvider from "@/context/book-context";
 import { getUserBooksByUserId, getUserById } from "@/database/user";
 import { MessageCircle } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -41,14 +39,16 @@ export default async function ProfilePage({
           className="w-36 h-36 border p-1"
           avatarUrl={user?.image}
         />
-        <div className="space-y-5">
-          <h1 className="font-bold text-4xl">{user.name}</h1>
+        <div className="space-y-5 text-center md:text-left">
+          <h1 className="font-bold  text-4xl">{user.name}</h1>
           <span className="text-sm text-muted-foreground">{user.email}</span>
           <p className="max-w-md text-left break-words">{user.description}</p>
-          <Button variant="link" className="flex px-0 items-center gap-x-4">
-            <MessageCircle className="w-10 h-10" />
-            Send a message
-          </Button>
+          {!canEdit && (
+            <Button variant="link" className="flex px-0 items-center gap-x-4">
+              <MessageCircle className="w-10 h-10" />
+              Send a message
+            </Button>
+          )}
         </div>
       </div>
       <section className="space-y-5 w-full">
