@@ -19,7 +19,8 @@ export async function loginAction(
     return { error: "Invalid fields!" };
   }
 
-  const { email, password } = validatedFormData.data;
+  let { email, password } = validatedFormData.data;
+  email = email.toLowerCase();
 
   const existingUser = await getUserByEmail(email);
   if (existingUser && !existingUser.emailVerified) {

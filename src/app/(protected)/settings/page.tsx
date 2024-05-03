@@ -9,6 +9,7 @@ import { settingsAction } from "@/actions/settings";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { useSession } from "next-auth/react";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import {
   Form,
   FormField,
@@ -16,10 +17,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { Switch } from "@/components/ui/switch";
 import { FormSucess } from "@/components/form-sucess";
 import { FormError } from "@/components/form-error";
 import { Bell, Contact, Lock, Mail, NotepadText } from "lucide-react";
@@ -115,16 +116,25 @@ export default function SettingsPage() {
                 name="enabledNotifications"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="flex items-center gap-x-2 pb-1">
+                    <div className="flex items-center gap-x-2 pb-1">
                       <Bell className="w-5 h-5" />
-                      <span className="text-lg">Notifications</span>
+                      <span className="text-lg pr-3">Notifications</span>
+                    </div>
+                    <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                      <div className="space-y-1">
+                        <FormLabel>Message notifications</FormLabel>
+                        <FormDescription>
+                          Receive a notification when a new user sends you a
+                          message.
+                        </FormDescription>
+                      </div>
                       <FormControl>
-                        <Checkbox
+                        <Switch
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                    </FormLabel>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}

@@ -2,7 +2,7 @@
 
 import "react-image-crop/dist/ReactCrop.css";
 import ReactCrop, { Crop, makeAspectCrop } from "react-image-crop";
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { FormError } from "@/components/form-error";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,8 @@ import { newAvatarAction } from "@/actions/new-avatar";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useSession } from "next-auth/react";
 import { useToast } from "./ui/use-toast";
+import { AllowedFileExtensions } from "@/schemas";
+import { isFileExtensionAllowed } from "@/lib/utils";
 
 const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 150;
@@ -24,11 +26,22 @@ export function UserNewAvatar({ closeModal }: UserNewAvatarProps) {
   const user = useCurrentUser();
   const [error, setError] = useState("");
   const [imgSrc, setImgSrc] = useState("");
+  const [fileSelected, setFileSelected] = useState<File | undefined>(undefined);
   const [crop, setCrop] = useState<Crop>();
 
   const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    if (!isFileExtensionAllowed(file.name)) {
+      toast({
+        variant: "destructive",
+        title: "Invalid file format. Please upload a valid image file.",
+      });
+      return;
+    }
+
+    setFileSelected(file);
 
     const reader = new FileReader();
 
@@ -72,26 +85,37 @@ export function UserNewAvatar({ closeModal }: UserNewAvatarProps) {
   };
 
   const handleClick = async () => {
-    const result = await newAvatarAction(imgSrc, user?.id);
+    if (fileSelected) {
+      const fileExtension = fileSelected.name.split(".").pop()?.toLowerCase();
 
-    if (result.success) {
-      update();
-      toast({
-        variant: "default",
-        title: "Success",
-        description: result.success,
-      });
+      if (!fileExtension || !AllowedFileExtensions.includes(fileExtension)) {
+        toast({
+          variant: "destructive",
+          title: "Invalid file format. Please upload a valid image file.",
+        });
+        return;
+      }
+
+      const result = await newAvatarAction(imgSrc, user?.id);
+      if (result.success) {
+        update();
+        toast({
+          variant: "default",
+          title: "Success",
+          description: result.success,
+        });
+      }
+
+      if (result.error) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: result.error,
+        });
+      }
+
+      closeModal();
     }
-
-    if (result.error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: result.error,
-      });
-    }
-
-    closeModal();
   };
 
   return (
@@ -100,7 +124,7 @@ export function UserNewAvatar({ closeModal }: UserNewAvatarProps) {
         <span className="sr-only">Choose profile photo</span>
         <Input
           type="file"
-          accept="image/*"
+          accept="image/jpeg, image/png, image/gif, image/webp"
           onChange={onSelectFile}
           className="block border-none w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:hover:cursor-pointer file:text-xs file:bg-muted file:text-foreground hover:file:bg-muted/50 "
         />

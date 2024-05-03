@@ -31,8 +31,8 @@ export function UserAvatar({ canEdit, avatarUrl, className }: UserAvatarProps) {
   }
 
   return (
-    <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-      <div className="relative w-fit mb-10">
+    <div className="relative w-fit mb-10">
+      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
         <Avatar className={cn("h-20  w-20", className)}>
           <AvatarImage src={avatarUrl || ""} />
           <AvatarFallback>
@@ -42,15 +42,15 @@ export function UserAvatar({ canEdit, avatarUrl, className }: UserAvatarProps) {
         <DialogTrigger asChild>
           <button
             onClick={() => setModalOpen(true)}
-            className="absolute -bottom-4 left-0 right-0 m-auto bg-muted p-2 rounded-full border border-muted-foreground hover:opacity-80 transition-all"
+            className="absolute -bottom-1 left-[38%] w-8 h-8 bg-muted p-2 rounded-full border border-muted-foreground hover:opacity-80 transition-all"
           >
             <PencilIcon className="w-4 h-4" />
           </button>
         </DialogTrigger>
-      </div>
-      <DialogContent>
-        <UserNewAvatar closeModal={() => setModalOpen(false)} />
-      </DialogContent>
-    </Dialog>
+        <DialogContent>
+          <UserNewAvatar closeModal={() => setModalOpen(false)} />
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }

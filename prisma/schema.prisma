@@ -69,8 +69,10 @@ model Book {
   publisher       String?
   coverImage      String?
   category        BookCategory
+  genreId         String?
   userId          String?
-  User            User?        @relation(fields: [userId], references: [id])
+  User            User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Genre           Genre?       @relation(fields: [genreId], references: [id])
 }
 
 model Chat {
@@ -80,6 +82,8 @@ model Chat {
   user1    User      @relation("User1Chats", fields: [user1Id], references: [id])
   user2    User      @relation("User2Chats", fields: [user2Id], references: [id])
   messages Message[]
+
+  @@unique([user1Id, user2Id])
 }
 
 model Message {
@@ -99,6 +103,12 @@ model Notification {
   timestamp DateTime @default(now())
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+}
+
+model Genre {
+  id    String @id @default(cuid())
+  name  String @unique
+  books Book[]
 }
 
 enum BookCategory {

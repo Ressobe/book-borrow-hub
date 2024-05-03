@@ -87,3 +87,10 @@ export async function updateUser(
     },
   });
 }
+
+export async function searchUsers(userId: string, search: string) {
+  const users = await db.user.findMany();
+  return users.filter(
+    (user) => user.name?.includes(search) && user.id !== userId,
+  );
+}
