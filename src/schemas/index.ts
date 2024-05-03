@@ -96,4 +96,8 @@ export const BookSchema = z.object({
   publisher: z.optional(z.string()),
 });
 
+export const MessageSchema = z.object({
+  message: z.string().min(1, "Message is required"),
+});
+
 export const AllowedFileExtensions = ["jpg", "jpeg", "png", "gif", "webp"];

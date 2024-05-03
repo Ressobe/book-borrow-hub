@@ -1,8 +1,16 @@
 import { Prisma } from "@prisma/client";
 
-export type ChatWithUsers = Prisma.ChatGetPayload<{
+export type FullChat = Prisma.ChatGetPayload<{
   include: {
-    messages: true;
+    user1: true;
     user2: true;
+    messages: true;
   };
 }>;
+
+export type TemporaryMessage = {
+  content: string;
+  chatId: string;
+  senderId: string;
+  timestamp: Date;
+};

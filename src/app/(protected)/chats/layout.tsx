@@ -1,23 +1,23 @@
-"use client";
-import ChatsContextProvider from "@/context/chat-context";
-import { getChatsByUserId } from "@/database/chats";
+import { getConversationsAction } from "@/actions/chat";
+import { ConversationList } from "./_components/conversation-list";
 import { currentUser } from "@/lib/auth";
 
-type ChatsLayoutProps = {
+type ConversationLayoutProps = {
   children: React.ReactNode;
 };
 
-export default async function ChatsLayoutProps({ children }: ChatsLayoutProps) {
+export default async function ConversationLayout({
+  children,
+}: ConversationLayoutProps) {
   const user = await currentUser();
-
   if (!user) return null;
-  if (!user.id) return null;
 
-  const chats = await getChatsByUserId(user.id);
+  const conversations = await getConversationsAction();
 
   return (
-    <ChatsContextProvider userId={user.id} chats={chats}>
-      {children}
-    </ChatsContextProvider>
+    <div className="flex w-3/4 min-h-[550px] max-h-[550px] border rounded">
+      <ConversationList userId={user.id || ""} initialItems={conversations} />
+      <div className="w-full h-full">{children}</div>
+    </div>
   );
 }
