@@ -8,20 +8,21 @@ datasource db {
 }
 
 model User {
-  id                   String         @id @default(cuid())
-  name                 String?
-  email                String?        @unique
-  emailVerified        DateTime?
-  description          String         @default("")
-  enabledNotifications Boolean        @default(true)
-  image                String?
-  password             String?
-  accounts             Account[]
-  books                Book[]
-  chatsAsUser1         Chat[]         @relation("User1Chats")
-  chatsAsUser2         Chat[]         @relation("User2Chats")
-  messages             Message[]
-  notifications        Notification[]
+  id                    String         @id @default(cuid())
+  name                  String?
+  email                 String?        @unique
+  emailVerified         DateTime?
+  description           String         @default("")
+  enabledNotifications  Boolean        @default(true)
+  image                 String?
+  password              String?
+  accounts              Account[]
+  books                 Book[]
+  chatsAsUser1          Chat[]         @relation("User1Chats")
+  chatsAsUser2          Chat[]         @relation("User2Chats")
+  messages              Message[]
+  notificationAsSender  Notification[] @relation("Sender")
+  notificationAsReciver Notification[] @relation("Reciver")
 }
 
 model Account {
@@ -92,17 +93,26 @@ model Message {
   timestamp DateTime @default(now())
   senderId  String
   chatId    String
-  chat      Chat     @relation(fields: [chatId], references: [id])
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
   sender    User     @relation(fields: [senderId], references: [id])
 }
 
+enum NotificationType {
+  NEW_CHAT
+  NEW_MESSAGE
+}
+
 model Notification {
-  id        String   @id @default(cuid())
-  content   String
-  isReaded  Boolean
-  timestamp DateTime @default(now())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  id        String           @id @default(cuid())
+  type      NotificationType
+  isReaded  Boolean          @default(false)
+  timestamp DateTime         @default(now())
+  senderId  String
+  reciverId String
+  sender    User             @relation("Sender", fields: [senderId], references: [id])
+  reciver   User             @relation("Reciver", fields: [reciverId], references: [id])
+
+  @@unique([senderId, reciverId, type])
 }
 
 model Genre {

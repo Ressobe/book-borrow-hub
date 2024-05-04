@@ -94,3 +94,8 @@ export async function searchUsers(userId: string, search: string) {
     (user) => user.name?.includes(search) && user.id !== userId,
   );
 }
+
+export async function userNotificationsEnabled(userId: string) {
+  const user = await getUserById(userId);
+  return !!user?.enabledNotifications;
+}

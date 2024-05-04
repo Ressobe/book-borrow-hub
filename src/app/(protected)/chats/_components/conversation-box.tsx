@@ -30,7 +30,7 @@ export function ConversationBox({
     <button
       onClick={handleClick}
       className={cn(
-        "w-full flex items-center gap-x-4 text-left p-2 pr-4 rounded hover:bg-secondary transition-all ",
+        "w-full flex items-center gap-x-4 text-left p-2 rounded hover:bg-secondary transition-all ",
         selected ? "bg-secondary" : "",
       )}
     >
@@ -40,7 +40,7 @@ export function ConversationBox({
           <FaUser className="w-8 h-8" />
         </AvatarFallback>
       </Avatar>
-      <div>
+      <div className="hidden md:block">
         <div>{user.name}</div>
         <span className="text-sm text-muted-foreground">{user.email}</span>
       </div>

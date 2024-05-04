@@ -15,7 +15,7 @@ export default async function ConversationLayout({
   const conversations = await getConversationsAction();
 
   return (
-    <div className="flex w-3/4 min-h-[550px] max-h-[550px] border rounded">
+    <div className="flex w-full min-h-[550px] max-h-[550px] border rounded">
       <ConversationList userId={user.id || ""} initialItems={conversations} />
       <div className="w-full h-full">{children}</div>
     </div>

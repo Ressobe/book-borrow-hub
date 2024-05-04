@@ -44,15 +44,15 @@ export function UserBox({
     if (response.wasCreated) {
       addNewChat(response.chat);
     }
-    clearSearch();
 
+    clearSearch();
     router.push(`/chats/${response.chat.id}`);
   };
 
   return (
     <button
       onClick={handleClick}
-      className="w-full flex items-center gap-x-2  text-left p-2 pr-4 rounded hover:bg-secondary transition-all"
+      className="w-fit md:w-full flex items-center gap-x-2  text-left p-2 pr-4 rounded hover:bg-secondary transition-all"
     >
       <Avatar className="h-12  w-12">
         <AvatarImage src={user.image || ""} />
@@ -60,7 +60,7 @@ export function UserBox({
           <FaUser className="w-8 h-8" />
         </AvatarFallback>
       </Avatar>
-      <div>
+      <div className="hidden md:block">
         <div>{user.name}</div>
         <span className="text-sm text-muted-foreground">{user.email}</span>
       </div>

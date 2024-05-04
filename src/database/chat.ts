@@ -1,5 +1,4 @@
 import { db } from "@/lib/db";
-import { babelIncludeRegexes } from "next/dist/build/webpack-config";
 
 export async function getChatsByUserId(userId?: string) {
   return await db.chat.findMany({

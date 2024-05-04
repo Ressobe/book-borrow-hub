@@ -14,3 +14,10 @@ export type TemporaryMessage = {
   senderId: string;
   timestamp: Date;
 };
+
+export type FullNotification = Prisma.NotificationGetPayload<{
+  include: {
+    sender: true;
+    reciver: true;
+  };
+}>;

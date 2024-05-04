@@ -41,7 +41,7 @@ export function ConversationBody({
   }, []);
 
   return (
-    <ul className="py-4 px-6">
+    <ul className="py-4 px-6 space-y-2">
       {initialMessages.map((message) => {
         return (
           <MessageBox
