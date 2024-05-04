@@ -7,7 +7,7 @@ export default async function OffertsPage() {
   const books = await getBooks();
 
   return (
-    <div className="w-3/4 space-y-10">
+    <div className="space-y-10">
       <form className="ml-auto flex-1 sm:flex-initial">
         <div className="relative">
           <Search className="absolute left-2.5 top-2.5 h-5 w-5 text-muted-foreground" />

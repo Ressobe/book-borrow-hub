@@ -59,22 +59,20 @@ export function ConversationList({
   };
 
   return (
-    <aside className="h-full w-fit flex flex-col gap-y-4 p-4 border-r">
-      <section>
-        <form className="ml-auto flex-1 sm:flex-initial">
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-5 w-5 text-muted-foreground" />
-            <Input
-              onChange={(e) => setSearch(e.target.value)}
-              type="search"
-              placeholder="Search users..."
-              className="pl-10 text-md sm:w-[300px] md:w-[200px] lg:w-[300px]"
-              ref={inputRef}
-            />
-          </div>
-        </form>
-      </section>
-      <ScrollArea className="pr-4">
+    <aside className="flex flex-col gap-y-4 p-4">
+      <form className="flex-1 sm:flex-initial">
+        <div className="relative">
+          <Search className="absolute left-2.5 top-2.5 h-5 w-5 text-muted-foreground" />
+          <Input
+            onChange={(e) => setSearch(e.target.value)}
+            type="search"
+            placeholder="Search users..."
+            className="pl-10 text-md sm:w-[100px] md:w-[200px] lg:w-[300px]"
+            ref={inputRef}
+          />
+        </div>
+      </form>
+      <ScrollArea>
         {search === "" ? (
           <ul className="space-y-4">
             {items.map((chat) => {

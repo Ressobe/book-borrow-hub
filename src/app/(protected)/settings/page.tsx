@@ -67,7 +67,7 @@ export default function SettingsPage() {
     });
   };
   return (
-    <Card className="w-3/4">
+    <Card>
       <CardHeader>
         <p className="text-2xl font-semibold text-center">Settings</p>
       </CardHeader>

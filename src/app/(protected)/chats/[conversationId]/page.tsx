@@ -1,10 +1,11 @@
-import { getChatById } from "@/database/chats";
-import { EmptyState } from "../_components/empty-state";
+import { getChatById } from "@/database/chat";
 import { ConversationHeader } from "../_components/conversation-header";
 import { ConversationBody } from "../_components/conversation-body";
 import { SendMessageForm } from "../_components/send-message-form";
 import { currentUser } from "@/lib/auth";
 import { ScrollArea } from "@/components/ui/scroll-area";
+
+export const dynamic = "force-dynamic";
 
 export default async function ConverationPage({
   params,
@@ -17,7 +18,7 @@ export default async function ConverationPage({
   if (!authUser) return null;
 
   if (!conversation) {
-    return <EmptyState />;
+    return <h3>Select chat or start a new conversation</h3>;
   }
 
   const user =
@@ -26,7 +27,7 @@ export default async function ConverationPage({
       : conversation.user1;
 
   return (
-    <section className="p-4">
+    <section className="border-l">
       <ConversationHeader user={user} />
       <ScrollArea className="h-96 mb-5">
         <ConversationBody
