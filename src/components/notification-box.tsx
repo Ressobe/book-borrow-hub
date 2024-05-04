@@ -44,7 +44,7 @@ function formatTimeDiff(createdAt: Date) {
   }
 }
 
-function pluralize(value, unit) {
+function pluralize(value: number, unit: string) {
   return value === 1 ? unit : `${unit}s`;
 }
 
