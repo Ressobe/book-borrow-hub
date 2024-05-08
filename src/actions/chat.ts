@@ -3,6 +3,7 @@
 import {
   createChat,
   createMessage,
+  getChatById,
   getChatByUsersId,
   getChatsByUserId,
 } from "@/database/chat";
@@ -10,6 +11,7 @@ import { searchUsers, userNotificationsEnabled } from "@/database/user";
 import { currentUser } from "@/lib/auth";
 import { pusherServer } from "@/lib/pusherServer";
 import { sendNotificationAction } from "./notification";
+import { getNotificationsByReciverAndSenderId } from "@/database/notification";
 
 export async function getConversationsAction() {
   const user = await currentUser();
@@ -54,7 +56,19 @@ export async function sendMessageAction(
 
   pusherServer.trigger(chatId, "incoming-message", message);
 
-  await createMessage(chatId, senderId, content);
+  createMessage(chatId, senderId, content);
+
+  const chat = await getChatById(chatId);
+  if (chat) {
+    const reciverId = chat.user1Id === senderId ? chat.user2Id : chat.user1Id;
+    const notification = await getNotificationsByReciverAndSenderId(
+      senderId,
+      reciverId,
+    );
+    if (notification.length === 0) {
+      sendNotificationAction(senderId, reciverId, "NEW_MESSAGE");
+    }
+  }
 }
 
 export async function searchUsersAction(userId: string, search: string) {

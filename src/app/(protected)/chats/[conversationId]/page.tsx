@@ -27,7 +27,7 @@ export default async function ConverationPage({
       : conversation.user1;
 
   return (
-    <section className="border-l">
+    <section>
       <ConversationHeader user={user} />
       <ScrollArea className="h-96 mb-5">
         <ConversationBody

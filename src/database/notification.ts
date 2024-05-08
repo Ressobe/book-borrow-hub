@@ -24,6 +24,10 @@ export async function createNotification(
       reciverId,
       type,
     },
+    include: {
+      sender: true,
+      reciver: true,
+    },
   });
 }
 
@@ -40,6 +44,35 @@ export async function markNotificationAsReaded(notificationId: string) {
     },
     data: {
       isReaded: true,
+    },
+  });
+}
+
+export async function getNotificationsByReciverAndSenderId(
+  senderId: string,
+  reciverId: string,
+) {
+  const today = new Date();
+  const startOfDay = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
+  );
+  const endOfDay = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate() + 1,
+  );
+
+  return await db.notification.findMany({
+    where: {
+      senderId,
+      reciverId,
+      type: "NEW_MESSAGE",
+      timestamp: {
+        gte: startOfDay,
+        lt: endOfDay,
+      },
     },
   });
 }

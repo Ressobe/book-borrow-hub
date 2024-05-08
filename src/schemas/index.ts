@@ -54,10 +54,16 @@ export const SettingsSchema = z
     ),
     enabledNotifications: z.optional(z.boolean()),
     password: z.optional(
-      z.string().min(8, { message: "Passowrd require minimum 8 characters" }),
+      z
+        .string()
+        .min(8, { message: "Passowrd require minimum 8 characters" })
+        .max(50, "Password is too long!"),
     ),
     newPassword: z.optional(
-      z.string().min(8, { message: "Passowrd require minimum 8 characters" }),
+      z
+        .string()
+        .min(8, { message: "Passowrd require minimum 8 characters" })
+        .max(50, "Password is too long!"),
     ),
   })
   .refine(
@@ -96,7 +102,10 @@ export const BookSchema = z.object({
 });
 
 export const MessageSchema = z.object({
-  message: z.string().min(1, "Message is required"),
+  message: z
+    .string()
+    .min(1, "Message is required")
+    .max(100, "Message is too long!"),
 });
 
 export const AllowedFileExtensions = ["jpg", "jpeg", "png", "gif", "webp"];

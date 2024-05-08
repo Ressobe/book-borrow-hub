@@ -1,35 +1,12 @@
 import Link from "next/link";
-import LoginButton from "@/components/auth/login-button";
 import { Button } from "@/components/ui/button";
-import { Book } from "lucide-react";
-import { Footer } from "./_components/footer";
 import Image from "next/image";
 import { auth } from "@/auth";
-import { UserButton } from "@/components/auth/user-button";
 
 export default async function Home() {
   const session = await auth();
   return (
     <>
-      <header className="px-6  mx-auto lg:px-6 pt-10 flex flex-col gap-y-4 sm:flex-row w-full justify-between items-center">
-        <Link className="flex items-center justify-cente" href="#">
-          <Book className="sm:w-12 sm:h-12 w-7 h-7  text-indigo-500 " />
-          <h1 className="pl-4 font-bold text-2xl sm:text-3xl  text-gradient bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-            BookBorrowHub
-          </h1>
-        </Link>
-        {session?.user ? (
-          <>
-            <UserButton className="w-20 h-20 border border-primary" />
-          </>
-        ) : (
-          <LoginButton mode="redirect" asChild>
-            <Button variant="default" className="rounded px-4">
-              Sign In
-            </Button>
-          </LoginButton>
-        )}
-      </header>
       <section className="w-full px-5 py-6 md:py-12 lg:py-24 xl:py-32">
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-[1fr_600px] lg:gap-12 xl:grid-cols-[1fr_800px]">
@@ -44,7 +21,7 @@ export default async function Home() {
                 </p>
               </div>
               {!session?.user && (
-                <Button variant="secondary" asChild>
+                <Button variant="default" asChild>
                   <Link href="/auth/register">Sign Up</Link>
                 </Button>
               )}
@@ -59,7 +36,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      <Footer />
     </>
   );
 }
