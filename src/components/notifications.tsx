@@ -1,8 +1,8 @@
 "use client";
 
-import { Bell, BellDot } from "lucide-react";
+import { Bell, BellDot, BellOff } from "lucide-react";
 import { Button } from "./ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { pusherClient } from "@/lib/pusherClient";
 import {
   Popover,
@@ -41,6 +41,19 @@ export function Notifications({
     };
   }, []);
 
+  const uniqueNotifications = useMemo(() => {
+    const allNotifications = [
+      ...initialNotifications,
+      ...incomingNotifications,
+    ];
+    const uniqueIds = new Set(
+      allNotifications.map((notification) => notification.id),
+    );
+    return allNotifications.filter((notification) =>
+      uniqueIds.has(notification.id),
+    );
+  }, [initialNotifications, incomingNotifications]);
+
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
       <PopoverTrigger asChild>
@@ -54,25 +67,31 @@ export function Notifications({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-fit">
-        <ul>
-          {initialNotifications.map((notification) => {
-            return (
-              <NotificationBox
-                key={notification.id}
-                notifcation={notification}
-                closePopover={() => setPopoverOpen(false)}
-              />
-            );
-          })}
-          {incomingNotifications.map((notification) => {
-            return (
-              <NotificationBox
-                key={notification.id}
-                notifcation={notification}
-                closePopover={() => setPopoverOpen(false)}
-              />
-            );
-          })}
+        <ul className="space-y-3">
+          {initialNotifications.length === 0 &&
+          incomingNotifications.length === 0 ? (
+            <div className="flex flex-col justify-center items-center gap-3">
+              <BellOff className="w-8 h-8" />
+              <span className="text-center">
+                <div className="font-bold text-lg">No notification</div>
+                <div className="text-sm text-muted-foreground">
+                  You don't have notification
+                </div>
+              </span>
+            </div>
+          ) : (
+            <>
+              {uniqueNotifications.map((notification) => {
+                return (
+                  <NotificationBox
+                    key={notification.id}
+                    notifcation={notification}
+                    closePopover={() => setPopoverOpen(false)}
+                  />
+                );
+              })}
+            </>
+          )}
         </ul>
       </PopoverContent>
     </Popover>

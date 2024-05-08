@@ -13,9 +13,6 @@ export async function sendNotificationAction(
   type: NotificationType,
 ) {
   const notification = await createNotification(senderId, reciverId, type);
-
-  console.log(`nt${reciverId}`);
-
   pusherServer.trigger(`nt${reciverId}`, "incoming-notification", notification);
 }
 

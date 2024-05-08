@@ -59,7 +59,7 @@ export function ConversationList({
   };
 
   return (
-    <aside className="flex flex-col gap-y-4 p-4">
+    <aside className="flex flex-col gap-y-4 p-4 border-r">
       <form className="flex-1 sm:flex-initial">
         <div className="relative">
           <Search className="absolute left-2.5 top-2.5 h-5 w-5 text-muted-foreground" />
