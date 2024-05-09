@@ -16,8 +16,8 @@ import { ImageIcon, UserIcon } from "lucide-react";
 type BookCardProps = {
   book: Book;
   canEdit: boolean;
-  user: User | null;
   showLinkToProfile: boolean;
+  user?: User | null;
 };
 
 export function BookCard({
