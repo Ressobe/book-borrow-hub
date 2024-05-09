@@ -43,6 +43,58 @@ export async function updateBook(
   }
 }
 
+export async function searchBooks(
+  start: number,
+  take: number,
+  query?: string,
+  category?: BookCategory,
+  sort?: string,
+) {
+  let where = {};
+
+  if (category) {
+    where = {
+      category,
+    };
+  }
+
+  let orderBy = {};
+  if (sort) {
+    orderBy = {
+      title: sort,
+    };
+  }
+
+  const books = await db.book.findMany({
+    where,
+    include: {
+      user: true,
+    },
+    orderBy,
+  });
+
+  if (query) {
+    const filtredBooks = books.filter(({ title, author, user }) => {
+      const includeTitle = title.toLowerCase().includes(query.toLowerCase());
+      const includeAuthor = author.toLowerCase().includes(query.toLowerCase());
+      const includeUser = user?.name
+        ?.toLowerCase()
+        .includes(query.toLowerCase());
+      return includeTitle || includeAuthor || includeUser;
+    });
+    return {
+      books: filtredBooks.splice(start, take),
+      totalCount: filtredBooks.length,
+    };
+  }
+
+  const len = books.length;
+  return {
+    books: books.splice(start, take),
+    totalCount: len,
+  };
+}
+
 export async function updateBookCover(bookId: string, bookCover: string) {
   try {
     const book = await db.book.update({
