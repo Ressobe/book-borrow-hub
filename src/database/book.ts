@@ -83,15 +83,14 @@ export async function searchBooks(
       return includeTitle || includeAuthor || includeUser;
     });
     return {
+      totalCount: books.length,
       books: filtredBooks.splice(start, take),
-      totalCount: filtredBooks.length,
     };
   }
 
-  const len = books.length;
   return {
+    totalCount: books.length,
     books: books.splice(start, take),
-    totalCount: len,
   };
 }
 
