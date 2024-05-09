@@ -9,19 +9,25 @@ import {
 import Image from "next/image";
 import { BookEditButton } from "./book-edit-button";
 import { BookDeleteButton } from "./book-delete-button";
-import { Book } from "@prisma/client";
+import { Book, User } from "@prisma/client";
 import Link from "next/link";
-import { ImageIcon, User } from "lucide-react";
+import { ImageIcon, UserIcon } from "lucide-react";
 
 type BookCardProps = {
   book: Book;
   canEdit: boolean;
   showLinkToProfile: boolean;
+  user?: User | null;
 };
 
-export function BookCard({ book, canEdit, showLinkToProfile }: BookCardProps) {
+export function BookCard({
+  book,
+  canEdit,
+  showLinkToProfile,
+  user,
+}: BookCardProps) {
   return (
-    <Card className="text-center relative">
+    <Card className="text-center relative flex flex-col h-full">
       <CardHeader className="space-y-4">
         {canEdit ? (
           <div className="absolute h-4 top-1.5 right-2 flex gap-x-2 ">
@@ -34,12 +40,14 @@ export function BookCard({ book, canEdit, showLinkToProfile }: BookCardProps) {
         <h2>{book.author}</h2>
         <CardDescription>{book.description}</CardDescription>
       </CardHeader>
-      <CardContent className="flex items-center justify-center">
-        {book.coverImage ? (
-          <Image src={book.coverImage} width="200" height="100" alt="book" />
-        ) : (
-          <ImageIcon width="200px" height="300px" />
-        )}
+      <CardContent className="flex items-center justify-center flex-1">
+        <div className="w-full h-full flex items-center justify-center">
+          {book.coverImage ? (
+            <Image src={book.coverImage} width="200" height="100" alt="book" />
+          ) : (
+            <ImageIcon width="200px" height="300px" />
+          )}
+        </div>
       </CardContent>
       <CardFooter>
         <div className="text-center w-full">
@@ -48,10 +56,10 @@ export function BookCard({ book, canEdit, showLinkToProfile }: BookCardProps) {
           {showLinkToProfile && (
             <Link
               href={`/profile/${book.userId}`}
-              className="text-sm flex pt-2 items-center justify-center"
+              className="text-sm flex pt-4 items-center justify-center gap-x-2 hover:underline"
             >
-              <User className="w-4 h-4" />
-              View profile
+              <UserIcon className="w-6 h-6" />
+              <span>{user?.name}</span>
             </Link>
           )}
         </div>

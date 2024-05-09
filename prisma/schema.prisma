@@ -72,8 +72,8 @@ model Book {
   category        BookCategory
   genreId         String?
   userId          String?
-  User            User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Genre           Genre?       @relation(fields: [genreId], references: [id])
+  user            User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  genre           Genre?       @relation(fields: [genreId], references: [id])
 }
 
 model Chat {
