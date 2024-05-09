@@ -2,6 +2,8 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Arrow } from "@radix-ui/react-select";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 type PaginationControlsProps = {
   hasPrevPage: boolean;
@@ -19,6 +21,7 @@ export function PaginationControls({
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  console.log(totalPages);
 
   const page = searchParams.get("page") ?? "1";
   if (Number(page) < 1) {
@@ -47,19 +50,14 @@ export function PaginationControls({
 
   return (
     <div className="flex w-full justify-center gap-x-10 py-6">
-      <Button
-        variant="default"
-        disabled={!hasPrevPage}
-        onClick={handlePrevPage}
-        className="bg-white"
-      >
-        Previous Page
+      <Button disabled={!hasPrevPage} onClick={handlePrevPage}>
+        <ArrowLeft className="w-6 h-6" />
       </Button>
       <div className="flex items-center font-bold text-xl">
         {currentPage} / {totalPages}
       </div>
       <Button disabled={!hasNextPage} onClick={handleNextPage}>
-        Next page
+        <ArrowRight className="w-6 h-6" />
       </Button>
     </div>
   );

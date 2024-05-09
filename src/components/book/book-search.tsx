@@ -43,7 +43,7 @@ export function BookSearch() {
   };
 
   return (
-    <form className="flex justify-between">
+    <form className="flex gap-x-2 md:justify-between">
       <div className="relative">
         <Search className="absolute left-2.5 top-2.5 h-5 w-5 text-muted-foreground" />
         <Input
@@ -61,7 +61,7 @@ export function BookSearch() {
           defaultValue={categoryParam}
           onValueChange={handleSelectBookCategory}
         >
-          <SelectTrigger className="w-40">
+          <SelectTrigger className="md:w-40">
             <SelectValue placeholder="Book Category" />
           </SelectTrigger>
           <SelectContent>
@@ -70,7 +70,7 @@ export function BookSearch() {
           </SelectContent>
         </Select>
         <Select defaultValue={sortParam} onValueChange={handleSelectSort}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="md:w-40">
             <SelectValue placeholder="Sort" />
           </SelectTrigger>
           <SelectContent>
