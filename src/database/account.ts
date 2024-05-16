@@ -10,3 +10,11 @@ export async function getAccountByUserId(userId: string) {
     return null;
   }
 }
+
+export async function deleteAccountByUserId(userId: string) {
+  await db.user.delete({
+    where: {
+      id: userId,
+    },
+  });
+}
