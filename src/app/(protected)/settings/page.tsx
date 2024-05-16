@@ -25,6 +25,7 @@ import { FormSucess } from "@/components/form-sucess";
 import { FormError } from "@/components/form-error";
 import { Bell, Contact, Lock, Mail, NotepadText } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { DeleteAccountButton } from "@/components/delete-account-button";
 
 export default function SettingsPage() {
   const user = useCurrentUser();
@@ -66,6 +67,7 @@ export default function SettingsPage() {
       }
     });
   };
+
   return (
     <Card>
       <CardHeader>
@@ -204,7 +206,8 @@ export default function SettingsPage() {
             </div>
             <FormSucess message={sucess} />
             <FormError message={error} />
-            <div className="w-full flex flex-row-reverse">
+            <div className="w-full flex justify-between">
+              <DeleteAccountButton userId={user?.id || ""} />
               <Button className="px-8" type="submit">
                 Save
               </Button>

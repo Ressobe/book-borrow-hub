@@ -80,8 +80,8 @@ model Chat {
   id       String    @id @default(cuid())
   user1Id  String
   user2Id  String
-  user1    User      @relation("User1Chats", fields: [user1Id], references: [id])
-  user2    User      @relation("User2Chats", fields: [user2Id], references: [id])
+  user1    User      @relation("User1Chats", fields: [user1Id], references: [id], onDelete: Cascade)
+  user2    User      @relation("User2Chats", fields: [user2Id], references: [id], onDelete: Cascade)
   messages Message[]
 
   @@unique([user1Id, user2Id])
@@ -94,7 +94,7 @@ model Message {
   senderId  String
   chatId    String
   chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
-  sender    User     @relation(fields: [senderId], references: [id])
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
 }
 
 enum NotificationType {
@@ -109,8 +109,8 @@ model Notification {
   timestamp DateTime         @default(now())
   senderId  String
   reciverId String
-  sender    User             @relation("Sender", fields: [senderId], references: [id])
-  reciver   User             @relation("Reciver", fields: [reciverId], references: [id])
+  sender    User             @relation("Sender", fields: [senderId], references: [id], onDelete: Cascade)
+  reciver   User             @relation("Reciver", fields: [reciverId], references: [id], onDelete: Cascade)
 
   @@unique([senderId, reciverId, type])
 }
