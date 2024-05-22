@@ -73,7 +73,6 @@ model Book {
   genreId         String?
   userId          String?
   user            User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  genre           Genre?       @relation(fields: [genreId], references: [id])
 }
 
 model Chat {
@@ -113,12 +112,6 @@ model Notification {
   reciver   User             @relation("Reciver", fields: [reciverId], references: [id], onDelete: Cascade)
 
   @@unique([senderId, reciverId, type])
-}
-
-model Genre {
-  id    String @id @default(cuid())
-  name  String @unique
-  books Book[]
 }
 
 enum BookCategory {
