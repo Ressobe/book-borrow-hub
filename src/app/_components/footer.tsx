@@ -21,6 +21,12 @@ export function Footer() {
         </Link>
         <Link
           className="text-md hover:underline underline-offset-4"
+          href="/regulations"
+        >
+          Regulations
+        </Link>
+        <Link
+          className="text-md hover:underline underline-offset-4"
           href="/terms-of-service"
         >
           Terms of Service
