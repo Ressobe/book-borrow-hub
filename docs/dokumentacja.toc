@@ -1,0 +1,8 @@
+\babel@toc {polish}{}\relax 
+\contentsline {section}{\numberline {1}Założenia projektowe}{\footnotesize 2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Analiza wymagań i planowanie projeku}{\footnotesize 2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Zakres prac}{\footnotesize 2}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Opis technologii}{\footnotesize 4}{section.2}%
+\contentsline {section}{\numberline {3}Opis struktury bazy danych}{\footnotesize 5}{section.3}%
+\contentsline {section}{\numberline {4}Diagramy}{\footnotesize 8}{section.4}%
+\contentsline {section}{\numberline {5}Wygląd strony internetowej}{\footnotesize 10}{section.5}%
